@@ -72,9 +72,9 @@ export class WCASolver {
       return this.problem.isToMinimize
         ? rainDropA.getCost - rainDropB.getCost
         : rainDropB.getCost - rainDropA.getCost;
-    } else if (constrainBreachA <= tolerance) {
+    } else if (constrainBreachA <= tolerance && constrainBreachB > tolerance) {
       return -1;
-    } else if (constrainBreachB <= tolerance) {
+    } else if (constrainBreachB <= tolerance && constrainBreachA > tolerance) {
       return 1;
     } else {
       return constrainBreachA - constrainBreachB;

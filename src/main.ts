@@ -8,9 +8,10 @@ const myA3Solver: WCASolver = new WCASolver(A3Problem);
 
 const problems = [myA1Solver, myA2Solver, myA3Solver];
 
-const wb2 = new Excel.Workbook();
-const ws2 = wb2.addWorksheet("A");
-ws2.addRow([
+const wb = new Excel.Workbook();
+const ws = wb.addWorksheet("Validate Algorithm");
+
+ws.addRow([
   "Population",
   "Nsr",
   "Dmax",
@@ -24,9 +25,21 @@ ws2.addRow([
   "Lösung8",
   "Lösung9",
   "Lösung10",
+  "Lösung11",
+  "Lösung12",
+  "Lösung13",
+  "Lösung14",
+  "Lösung15",
+  "Lösung16",
+  "Lösung17",
+  "Lösung18",
+  "Lösung19",
+  "Lösung20",
 ]);
 
-const fillTestValues = (
+/*
+
+ const fillTestValues = async (
   maxPop: number,
   minDmax: number,
   maxDmax: number,
@@ -47,7 +60,7 @@ const fillTestValues = (
 
         for (let k = 0; k < possibleNsr.length - 1; k++) {
           const sols = [];
-          for (let z = 0; z < 50; z++) {
+          for (let z = 0; z < 20; z++) {
             const sol = problems[0].solve(
               possibleNsr[k],
               dmax,
@@ -56,7 +69,7 @@ const fillTestValues = (
             ).getCost;
             sols.push(sol);
           }
-          ws2.addRow([j, possibleNsr[k], dmax, ...sols]);
+          ws.addRow([j, possibleNsr[k], dmax, ...sols]);
         }
 
         data.push(newRow);
@@ -64,42 +77,89 @@ const fillTestValues = (
       } while (dmax <= maxDmax);
 
       console.log("Done " + (j / maxPop) * 100 + "%");
+      await wb.xlsx
+        .writeFile("data/file1000.xlsx")
+        .then((lol) => console.log("Saved " + j))
+        .catch((err) => console.log("Didnt save " + j));
     }
   } catch (err) {
     console.log(err);
   }
 };
 
-fillTestValues(100, 0, 0.1, 0.005);
-
-wb2.xlsx
-  .writeFile("data/file1000.xlsx")
-  .then((lol) => console.log("Saved 2"))
-  .catch((err) => console.log("Didnt save 2"));
+fillTestValues(100, 0, 0.1, 0.005); */
 /* 
-const solutions: Array<number> = [];
-for (let i = 0; i < problems.length; i++) {
-  const currentSolver = problems[i];
+ws.addRow([
+  "Iteration",
+  "x1",
+  "x2",
+  "x3",
+  "x4",
+  "x5",
+  "x6",
+  "x7",
+  "Lösung",
+  "Abweichung",
+]);
 
-  const startTime = Date.now();
-  const solution = currentSolver.solve(8, 0.001, 50, 5000);
-  const endTime = Date.now();
-  console.log(
-    `It took ${
-      (endTime - startTime) / 1000
-    } seconds to solve with the solution ${solution.getCost}, which is ${(
-      Math.abs(
-        (solution.getCost - currentSolver.getProblem.optimum) /
-          currentSolver.getProblem.optimum,
-      ) * 100
-    ).toPrecision(2)}% off from the actual solution`,
-  );
-  console.log("Values: ", solution.getValues);
-  solutions.push(solution.getCost);
+const sols = [];
+for (let i = 0; i < 100; i++) {
+  sols.push(problems[0].solve(8, 0.5, 50, 1000));
+  ws.addRow([
+    i + 1,
+    ...sols[i].getValues,
+    sols[i].getCost,
+    Math.abs(sols[i].getCost - 680.63) / 680.63,
+  ]);
 }
 
-console.log(
-  "Avg. :",
-  solutions.reduce((prev, current) => prev + current, 0) / solutions.length,
-);
+wb.xlsx
+  .writeFile("data/validate_algorithm.xlsx")
+  .then((lol) => console.log("Saved"))
+  .catch((err) => console.log("Didnt save"));
  */
+
+ws.addRow(["Population", "Nsr", "Dmax", "Lösung", "Time"]);
+
+const fillTimeValues = async (
+  maxPop: number,
+  minDmax: number,
+  maxDmax: number,
+  DmaxSteps: number,
+) => {
+  try {
+    for (let j = 1; j <= maxPop; j++) {
+      const data: Array<Array<any>> = [];
+
+      const possibleNsr: Array<any> = [j];
+      for (let i = 1; i <= j; i++) {
+        possibleNsr.push(i);
+      }
+      data.push(possibleNsr);
+      let dmax = minDmax;
+      do {
+        const newRow = [dmax];
+
+        for (let k = 0; k < possibleNsr.length - 1; k++) {
+          const timeStart = Date.now();
+          const sol = problems[0].solve(possibleNsr[k], dmax, j, 1000).getCost;
+          const timeEnd = Date.now();
+          ws.addRow([j, possibleNsr[k], dmax, sol, timeEnd - timeStart]);
+        }
+
+        data.push(newRow);
+        dmax = Number((dmax + DmaxSteps).toPrecision(5));
+      } while (dmax <= maxDmax);
+
+      console.log("Done " + (j / maxPop) * 100 + "%");
+      await wb.xlsx
+        .writeFile("data/times.xlsx")
+        .then((lol) => console.log("Saved " + j))
+        .catch((err) => console.log("Didnt save " + j));
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+fillTimeValues(100, 0, 0.1, 0.005);
