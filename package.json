@@ -4,6 +4,7 @@
   "description": "JavaScript Implementations of the Water Cycle Algorithm. Terminal Executable only.",
   "main": "index.js",
   "scripts": {
+    "start": "ts-node src/main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,5 +19,8 @@
   "homepage": "https://github.com/BenjDrury/WaterCycleAlgorithm#readme",
   "dependencies": {
     "exceljs": "^4.3.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
   }
 }

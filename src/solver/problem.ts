@@ -7,7 +7,7 @@ export class Problem {
   private numOfVars: number;
   private lowerBounds: Array<number>;
   private upperBounds: Array<number>;
-  private expectedSolution: number;
+  private expectedSolution?: number;
   private genereateRandomSolution: () => Raindrop;
 
   constructor(
@@ -17,7 +17,7 @@ export class Problem {
     numOfVars: number,
     lowerBounds: Array<number>,
     upperBounds: Array<number>,
-    expectedSolution: number,
+    expectedSolution?: number,
     genereateRandomSolution?: () => Raindrop,
   ) {
     this.problem = problem;

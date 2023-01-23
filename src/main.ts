@@ -14,7 +14,7 @@ const doSearches = (
   Nsr = 8,
   dMax = 0.001,
   Npop = 50,
-  Niterations = 1000,
+  Niterations = 5000,
 ) => {
   console.log(`Solving ${problemName}...`);
   ws.addRow([`Data for the Search of solving ${problemName}`]);
@@ -25,7 +25,14 @@ const doSearches = (
   for (let i = 1; i < solver.getProblem.constraints.length; i++) {
     columnTitles.push(`r${i} cross`);
   }
-  ws.addRow(columnTitles.concat(["Bounds cross", "Volume", "Search Time"]));
+  ws.addRow(
+    columnTitles.concat([
+      "Bounds cross",
+      "Volume",
+      "Offset to expected Optiumum in %",
+      "Search Time",
+    ]),
+  );
   for (let i = 1; i <= searches; i++) {
     console.log(`Solving ${problemName}...${i}/${searches}`);
     const startTime = Date.now();
@@ -37,6 +44,12 @@ const doSearches = (
         constraint(sol.getValues),
       ),
       sol.getCost,
+      solver.getProblem
+        ? Math.round(
+            Math.abs(sol.getCost - solver.getProblem.optimum) /
+              solver.getProblem.optimum,
+          )
+        : "-",
       Date.now() - startTime,
     ]);
   }
@@ -69,7 +82,7 @@ wb.xlsx
   .writeFile(pathname)
   .then((lol) => console.log("Saved"))
   .catch((err) =>
-    console.log(
-      `Could not save the data. Make sure the File with the pathname(${pathname}) exists and that it has no important data as it will be replaced.`,
+    console.warn(
+      `Could not save the data. Make sure the File with the pathname(${pathname}) exists, is not open in any other program and that it has no important data as it will be replaced.`,
     ),
   );
