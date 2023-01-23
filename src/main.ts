@@ -22,7 +22,7 @@ const doSearches = (
   for (let i = 1; i <= solver.getProblem.getNumOfVars; i++) {
     columnTitles.push(`x${i}`);
   }
-  for (let i = 1; i < solver.getProblem.constraints.length; i++) {
+  for (let i = 1; i < solver.getProblem.getConstraints.length; i++) {
     columnTitles.push(`r${i} cross`);
   }
   ws.addRow(
@@ -40,7 +40,7 @@ const doSearches = (
     ws.addRow([
       i + 1,
       ...sol.getValues,
-      ...solver.getProblem.constraints.map((constraint) =>
+      ...solver.getProblem.getConstraints.map((constraint) =>
         constraint(sol.getValues),
       ),
       sol.getCost,

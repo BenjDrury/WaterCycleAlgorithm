@@ -3,7 +3,7 @@ import { Raindrop } from "./raindrop";
 export class Problem {
   private problem: (values: Array<number>) => number;
   private minimize: boolean;
-  public constraints: Array<(values: Array<number>) => number>;
+  private constraints: Array<(values: Array<number>) => number>;
   private numOfVars: number;
   private lowerBounds: Array<number>;
   private upperBounds: Array<number>;
@@ -29,6 +29,10 @@ export class Problem {
 
   public get getNumOfVars() {
     return this.numOfVars;
+  }
+
+  public get getConstraints() {
+    return [...this.constraints];
   }
 
   public get isToMinimize() {
