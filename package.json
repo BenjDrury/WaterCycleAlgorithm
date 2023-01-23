@@ -1,7 +1,7 @@
 {
   "name": "watercyclealgorithm",
   "version": "1.0.0",
-  "description": "JavaScript Implementations of the Water Cycle Algorithm. Terminal Executable only.",
+  "description": "JavaScript Implementations of the Water Cycle Algorithm. Terminal Executable only. Look at https://github.com/BenjDrury/WaterCycleAlgorithmVisualisation for a UI.",
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/main.ts",
