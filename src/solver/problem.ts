@@ -8,7 +8,6 @@ export class Problem {
   private lowerBounds: Array<number>;
   private upperBounds: Array<number>;
   private expectedSolution?: number;
-  private genereateRandomSolution: () => Raindrop;
 
   constructor(
     problem: (values: Array<number>) => number,
@@ -18,7 +17,6 @@ export class Problem {
     lowerBounds: Array<number>,
     upperBounds: Array<number>,
     expectedSolution?: number,
-    genereateRandomSolution?: () => Raindrop,
   ) {
     this.problem = problem;
     this.minimize = minimize;
@@ -27,7 +25,6 @@ export class Problem {
     this.lowerBounds = lowerBounds;
     this.upperBounds = upperBounds;
     this.expectedSolution = expectedSolution;
-    this.genereateRandomSolution = genereateRandomSolution;
   }
 
   public get getNumOfVars() {
@@ -48,10 +45,6 @@ export class Problem {
 
   public get getLB() {
     return this.lowerBounds;
-  }
-
-  public get getGenerateRandomSolution() {
-    return this.genereateRandomSolution;
   }
 
   public calcCostFor = (values: Array<number>): number => this.problem(values);

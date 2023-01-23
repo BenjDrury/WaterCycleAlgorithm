@@ -82,9 +82,6 @@ export class WCASolver {
   };
 
   private generateRandomRaindrop = (): Raindrop => {
-    if (this.problem.getGenerateRandomSolution) {
-      return this.problem.getGenerateRandomSolution();
-    }
     let rainDrop: Raindrop = new Raindrop(this.problem.calcCostFor);
 
     const newValues: Array<number> = [];
