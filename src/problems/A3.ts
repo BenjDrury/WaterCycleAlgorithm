@@ -1,27 +1,34 @@
-import { Problem } from "../problem";
+import { Problem } from "../solver/problem";
 
-const n = 20;
+const mainProblem = ([x1, x2]: Array<number>) =>
+  (2 * Math.sqrt(2) * x1 + x2) * 100;
 
-const mainProblem = (values: Array<number>) =>
-  -Math.pow(Math.sqrt(n), n) *
-  values.reduce((prev, current) => prev * current, 1);
+const LB: Array<number> = [0, 0];
+const UB: Array<number> = [1, 1];
 
-const LB: Array<number> = [];
-const UB: Array<number> = [];
+export const constraints = [
+  ([x1, x2]: Array<number>) => {
+    const res =
+      ((Math.sqrt(2) * x1 + x2) / (Math.sqrt(2) * x1 * x1 + 2 * x1 * x2)) * 2 -
+      2;
 
-for (let i = 0; i < n; i++) {
-  LB.push(0);
-  UB.push(1);
-}
+    if (res <= 0) return 0;
 
-const constraints = [
-  (values: Array<number>) => {
-    const res = values.reduce(
-      (prev, current) => prev + Math.pow(current, 2),
-      0,
-    );
+    return Math.abs(res);
+  },
+  ([x1, x2]: Array<number>) => {
+    const res = (x2 / (Math.sqrt(2) * x1 * x1 + 2 * x1 * x2)) * 2 - 2;
 
-    return Math.abs(res - 1);
+    if (res <= 0) return 0;
+
+    return Math.abs(res);
+  },
+  ([x1, x2]: Array<number>) => {
+    const res = (1 / (Math.sqrt(2) * x2 + x1)) * 2 - 2;
+
+    if (res <= 0) return 0;
+
+    return Math.abs(res);
   },
   (values: Array<number>) => {
     let res = 0;
@@ -39,13 +46,13 @@ const constraints = [
   },
 ];
 
-const expectedSolution = -1;
+const expectedSolution = 263.895843;
 
 const A3Problem: Problem = new Problem(
   mainProblem, // main function
   true, // to minimize
   constraints, // with constraints
-  n, // number of vars
+  2, // number of vars
   LB, // LB for all vars
   UB, // UP for all vars
   expectedSolution, // expected Optimum

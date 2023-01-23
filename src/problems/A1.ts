@@ -1,4 +1,4 @@
-import { Problem } from "../problem";
+import { Problem } from "../solver/problem";
 
 const mainProblem = ([x1, x2, x3, x4, x5, x6, x7]: Array<number>) =>
   (x1 - 10) * (x1 - 10) +
