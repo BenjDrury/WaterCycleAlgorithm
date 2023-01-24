@@ -11,6 +11,7 @@ class WCASolver {
         this.intensities = [];
         this.currentIteration = 0;
         this.maxIterations = 0;
+        this.iterations = [];
         // is negative if second value is worse in any way
         this.compareCosts = (rainDropA, rainDropB) => {
             const tolerance = this.constrainToleranceStart -
@@ -145,6 +146,7 @@ class WCASolver {
         this.constrainToleranceEnd = constrainToleranceEnd;
     }
     _reset() {
+        this.iterations = [];
         this.population = [];
         this.intensities = [];
         this.currentIteration = 0;
@@ -156,12 +158,14 @@ class WCASolver {
         this.intensities = this.calcIntensities(Nsr, Npop - Nsr);
         let dMax = initDMax;
         while (this.currentIteration < maxIterations) {
+            this.iterations.push(this.population);
             this.flowStreamsToRiversAndSea(Nsr);
             this.flowRiversToSea(Nsr);
             this.evaporateAndRain(Nsr, dMax);
             dMax = dMax - dMax / maxIterations;
             this.currentIteration++;
         }
+        this.iterations.push(this.population);
         return this.population[0];
     }
 }

@@ -10,6 +10,7 @@ export class WCASolver {
   private constrainToleranceEnd: number;
   private currentIteration: number = 0;
   private maxIterations: number = 0;
+  public iterations: Array<Array<Raindrop>> = [];
 
   public get getProblem() {
     return this.problem;
@@ -28,6 +29,7 @@ export class WCASolver {
   }
 
   private _reset() {
+    this.iterations = [];
     this.population = [];
     this.intensities = [];
     this.currentIteration = 0;
@@ -46,12 +48,14 @@ export class WCASolver {
     this.intensities = this.calcIntensities(Nsr, Npop - Nsr);
     let dMax = initDMax;
     while (this.currentIteration < maxIterations) {
+      this.iterations.push(this.population);
       this.flowStreamsToRiversAndSea(Nsr);
       this.flowRiversToSea(Nsr);
       this.evaporateAndRain(Nsr, dMax);
       dMax = dMax - dMax / maxIterations;
       this.currentIteration++;
     }
+    this.iterations.push(this.population);
     return this.population[0];
   }
 
