@@ -147,6 +147,7 @@ class WCASolver {
         this.C = C;
         this.constrainToleranceStart = constrainToleranceStart;
         this.constrainToleranceEnd = constrainToleranceEnd;
+        this.iterations = [];
     }
     _reset() {
         this.iterations = [];

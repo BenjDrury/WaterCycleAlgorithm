@@ -29,6 +29,7 @@ export class WCASolver {
     this.C = C;
     this.constrainToleranceStart = constrainToleranceStart;
     this.constrainToleranceEnd = constrainToleranceEnd;
+    this.iterations = [];
   }
 
   private _reset() {
