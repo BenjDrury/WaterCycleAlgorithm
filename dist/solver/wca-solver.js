@@ -6,6 +6,9 @@ class WCASolver {
     get getProblem() {
         return this.problem;
     }
+    get getIterations() {
+        return this.iterations;
+    }
     constructor(problem, C = 2, constrainToleranceStart = 0.01, constrainToleranceEnd = 0.001) {
         this.population = [];
         this.intensities = [];

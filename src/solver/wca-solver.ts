@@ -10,10 +10,13 @@ export class WCASolver {
   private constrainToleranceEnd: number;
   private currentIteration: number = 0;
   private maxIterations: number = 0;
-  public iterations: Array<Array<Raindrop>> = [];
+  private iterations: Array<Array<Raindrop>> = [];
 
   public get getProblem() {
     return this.problem;
+  }
+  public get getIterations() {
+    return this.iterations;
   }
 
   public constructor(
