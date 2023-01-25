@@ -162,14 +162,14 @@ class WCASolver {
         this.intensities = this.calcIntensities(Nsr, Npop - Nsr);
         let dMax = initDMax;
         while (this.currentIteration < maxIterations) {
-            this.iterations.push(this.population);
+            this.iterations.push(JSON.parse(JSON.stringify(this.population)));
             this.flowStreamsToRiversAndSea(Nsr);
             this.flowRiversToSea(Nsr);
             this.evaporateAndRain(Nsr, dMax);
             dMax = dMax - dMax / maxIterations;
             this.currentIteration++;
         }
-        this.iterations.push(this.population);
+        this.iterations.push(JSON.parse(JSON.stringify(this.population)));
         return this.population[0];
     }
 }
